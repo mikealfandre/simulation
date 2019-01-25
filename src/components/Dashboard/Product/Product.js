@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 
 function Product(props){
 
-    const {id} = props 
+     
     
     return(
        
@@ -12,8 +12,10 @@ function Product(props){
         <h4>{props.img}</h4>
         <h4>{props.name}</h4>
         <h4>{props.price}</h4>
+        <h4>{props.id}</h4>
 
-        <button onClick={props.deleteProduct(id)}>Delete</button>
+        
+        <button onClick={() => props.deleteProductFN(props.id)}>Delete</button>
 
     </div> 
         

@@ -10,11 +10,13 @@ class App extends Component {
   constructor(){
     super()
     this.state = {
-      inventory: []
+      inventory: [],
+      curProduct: {}
     }
 
     this.componentDidMount = this.componentDidMount.bind(this)
     this.deleteProduct = this.deleteProduct.bind(this)
+    
 
   }
 
@@ -26,11 +28,14 @@ class App extends Component {
         })
       })
   }
-  deleteProduct(id){
-    axios.delete(`/api/inventory?id=${id}`)
 
-    this.componentDidMount()
-}
+
+
+  deleteProduct(id){
+    axios.delete(`/api/inventory/${id}`)
+
+    
+  }
 
 
 
@@ -39,8 +44,8 @@ class App extends Component {
     return (
       <div className="App">
         
-      <Dashboard inventory={this.state.inventory} getRequest={this.componentDidMount} deleteProduct={this.deleteProduct} />
-      <Form getRequest={this.componentDidMount} />
+      <Dashboard inventory={this.state.inventory} deleteProduct={this.deleteProduct} id={this.state.inventory.product_id} getRequest={this.componentDidMount} />
+      <Form getRequest={this.componentDidMount} inventory={this.state.inventory} currentProduct={this.state.curProduct} />
       <Header />
 
 

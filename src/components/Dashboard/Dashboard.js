@@ -6,15 +6,40 @@ import axios from 'axios'
 class Dashboard extends Component{
     constructor(){
         super()
+
+     this.deleteProduct = this.deleteProduct.bind(this)   
     }
+
+    deleteProduct(id){
+        axios.delete(`/api/inventory/${id}`)
+            .then((response) => {
+                console.log(response)
+            })
+        this.props.getRequest()    
+    }
+
+    
 
 
 
     render(){
-
+        
+       
         const {inventory} = this.props;
         const inventoryList = inventory.map((product, index) => {
-            return (<Product key={index} name={product.name} price={product.price} img={product.imageurl} id={product.product_id} deleteProduct={this.props.deleteProduct}/>)
+            return (
+            
+            <div>
+
+                <Product key={index} name={product.name} price={product.price} img={product.image_url} id={product.product_id} deleteProductFN={this.deleteProduct} />
+                
+            
+            </div>
+
+            
+                
+            
+            )
         })
 
         return(

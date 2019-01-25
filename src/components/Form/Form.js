@@ -3,15 +3,25 @@ import axios from 'axios'
 
 
 class Form extends Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
+        
         this.state = {
             name: '',
             price: 0,
-            imgurl: ''
+            imgurl: '',
+            id: null
+            
         }
       this.clearFields = this.clearFields.bind(this) 
       this.addProduct = this.addProduct.bind(this) 
+    }
+
+    componentDidUpdate(prevProps){
+        if (this.props.id !== prevProps.currentProduct.product_id){
+            this.fetchData(this.props.userID)
+        }
+
     }
 
     handleInputIMG(input){
@@ -39,20 +49,23 @@ class Form extends Component{
     }
     addProduct(){
         const {imgurl, name, price} = this.state
-        const {getRequest} = this.props;
-        
         
         axios.post('/api/product', {imgurl, name, price})
-        
-        this.clearFields()
-        getRequest()
-        
+            .then((response) => {
+                console.log(response)
+            })
+
+       this.props.getRequest()
+       this.clearFields()
     }
+
+    
 
     
 
 
     render(){
+        console.log(this.state)
         return(
             <div>
                 <div>Form</div>
@@ -64,9 +77,10 @@ class Form extends Component{
                     <input value={this.state.price} onChange={(e) => this.handleInputPrice(e.target.value)} />
                 
                 <button onClick={this.clearFields}>Cancel</button>
-                <button onClick={this.addProduct}>Add To Inventory</button>
+                <button value ={this.addProduct} onClick={this.addProduct}>Add To Inventory</button>
                 
                 {this.props.getRequest}
+
 
 
 
