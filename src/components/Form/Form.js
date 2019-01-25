@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import axios from 'axios'
 
 
 class Form extends Component{
@@ -9,7 +10,8 @@ class Form extends Component{
             price: 0,
             imgurl: ''
         }
-      this.clearFields = this.clearFields.bind(this)  
+      this.clearFields = this.clearFields.bind(this) 
+      this.addProduct = this.addProduct.bind(this) 
     }
 
     handleInputIMG(input){
@@ -35,6 +37,17 @@ class Form extends Component{
 
         })
     }
+    addProduct(){
+        const {imgurl, name, price} = this.state
+        const {getRequest} = this.props;
+        
+        
+        axios.post('/api/product', {imgurl, name, price})
+        
+        this.clearFields()
+        getRequest()
+        
+    }
 
     
 
@@ -51,7 +64,9 @@ class Form extends Component{
                     <input value={this.state.price} onChange={(e) => this.handleInputPrice(e.target.value)} />
                 
                 <button onClick={this.clearFields}>Cancel</button>
-                <button>Add To Inventory</button>
+                <button onClick={this.addProduct}>Add To Inventory</button>
+                
+                {this.props.getRequest}
 
 
 
